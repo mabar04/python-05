@@ -3,6 +3,9 @@ from typing import List, Any, Optional, Dict, Union
 
 
 class DataStream(ABC):
+    def __init__(self, stream_id: str) -> None:
+        self.stream_id = stream_id
+
     @abstractmethod
     def process_batch(self, data_batch: List[Any]) -> str:
         pass
@@ -26,8 +29,8 @@ class DataStream(ABC):
 
 
 class SensorStream(DataStream):
-    def __init__(self, stream_id: str):
-        self.stream_id = stream_id
+    def __init__(self, stream_id: str) -> None:
+        super().__init__(stream_id)
         self.count = 0
 
     def process_batch(self, data_batch: List[str]) -> str:
@@ -71,8 +74,8 @@ class SensorStream(DataStream):
 
 
 class TransactionStream(DataStream):
-    def __init__(self, stream_id: str):
-        self.stream_id = stream_id
+    def __init__(self, stream_id: str) -> None:
+        super().__init__(stream_id)
         self.count = 0
 
     def process_batch(self, data_batch: List[str]) -> str:
@@ -118,8 +121,8 @@ class TransactionStream(DataStream):
 
 
 class EventStream(DataStream):
-    def __init__(self, stream_id: str):
-        self.stream_id = stream_id
+    def __init__(self, stream_id: str) -> None:
+        super().__init__(stream_id)
         self.count = 0
 
     def process_batch(self, data_batch: List[str]) -> str:

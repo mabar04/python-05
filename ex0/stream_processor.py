@@ -16,14 +16,14 @@ class DataProcessor(ABC):
 
 
 class NumericProcessor(DataProcessor):
-    def process(self, data: List[int | float]) -> str:
+    def process(self, data: Any) -> str:
         count = len(data)
         sum_data = sum(data)
         avg_data = sum_data / count
         return (f"Processed {count} numeric values, "
                 f"sum={sum_data}, avg={avg_data}")
 
-    def validate(self, data: list[int | float]) -> bool:
+    def validate(self, data: List[int | float]) -> bool:
         if not isinstance(data, list):
             return False
         if len(data) == 0:
@@ -33,9 +33,12 @@ class NumericProcessor(DataProcessor):
                 return False
         return True
 
+    def format_output(self, result: str) -> str:
+        return super().format_output(result)
+
 
 class TextProcessor(DataProcessor):
-    def process(self, data: str) -> str:
+    def process(self, data: Any) -> str:
         word_count = len(data.split())
         return (f"Processed text: {len(data)} characters, "
                 f"{word_count} words")
@@ -49,7 +52,7 @@ class TextProcessor(DataProcessor):
 class LogProcessor(DataProcessor):
     def process(self, data: str) -> str:
         str1, str2 = data.split(":")
-        str2.trim()
+        str2 = str2.strip()
         if str1 == "ERROR":
             r = "ALERT"
         else:
@@ -64,7 +67,7 @@ class LogProcessor(DataProcessor):
         return True
 
 
-def main():
+def main() -> None:
     print("=== CODE NEXUS - DATA PROCESSOR FOUNDATION ===\n")
     list_proc = [1, 2, 3, 4, 5]
     print("Initializing Numeric Processor...")
